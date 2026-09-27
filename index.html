@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --primary: #ff4d6d;
+      --secondary: #ff758f;
+      --bg: #fff0f3;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --text: #590d22;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 50% 50%, #ffe5ec 0%, #ffccd5 100%);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 182, 193, 0.5);
+      border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(164, 19, 60, 0.15);
+      padding: 40px 30px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      animation: popIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .heart-icon {
+      font-size: 64px;
+      animation: heartbeat 1.5s infinite;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: #a4133c;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #800f2f;
+      margin-bottom: 24px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+    .btn-yes {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+    }
+    .btn-yes:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 12px 25px rgba(255, 77, 109, 0.6);
+    }
+    .btn-no {
+      background: white;
+      color: #800f2f;
+      border: 1px solid #ffb3c1;
+    }
+    .petals {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .petal {
+      position: absolute;
+      background: #ff758f;
+      border-radius: 150% 0 150% 0;
+      opacity: 0.7;
+      animation: fall 8s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translate(0, -10px) rotate(0deg); opacity: 0.8; }
+      100% { transform: translate(100px, 105vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="petals" id="petals"></div>
+  <div class="card" id="card">
+    <div class="heart-icon">💖</div>
+    <h1>Happy Valentine's Day!</h1>
+    <p>Every single moment spent together is filled with warmth, smiles, and magic. Will you be my Valentine?</p>
+    <div class="buttons">
+      <button class="btn-yes" id="yesBtn">Yes, Forever! 💘</button>
+      <button class="btn-no" id="noBtn">Definitely Yes! ✨</button>
+    </div>
+  </div>
+
+  <script>
+    function triggerConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    document.getElementById('yesBtn').addEventListener('click', () => {
+      triggerConfetti();
+      document.getElementById('card').innerHTML = `
+        <div class="heart-icon">🥰</div>
+        <h1>You Made My Day!</h1>
+        <p>Thank you for being the sweetest part of my life. Here's to love, laughter, and endless memories together! 🌹✨</p>
+      `;
+    });
+
+    document.getElementById('noBtn').addEventListener('click', () => {
+      triggerConfetti();
+      document.getElementById('card').innerHTML = `
+        <div class="heart-icon">💍</div>
+        <h1>Best Answer Ever!</h1>
+        <p>I knew you couldn't resist! Happy Valentine's Day, my love! ❤️</p>
+      `;
+    });
+
+    // Create falling petals
+    const petalsContainer = document.getElementById('petals');
+    for (let i = 0; i < 25; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      petal.style.animationDelay = Math.random() * 5 + 's';
+      petal.style.width = (Math.random() * 10 + 10) + 'px';
+      petal.style.height = (Math.random() * 10 + 15) + 'px';
+      petalsContainer.appendChild(petal);
+    }
+  </script>
+</body>
+</html>
